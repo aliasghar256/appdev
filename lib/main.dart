@@ -20,37 +20,25 @@ class _PostListUserState extends State<PostListUser> {
     return Scaffold(
       appBar: AppBar(),
       body: Center(
-        child: FutureBuilder(
-            future: fetchAllPosts(),
-            builder: (context, snap) {
-              if (snap.hasData)
-                return ListView.builder(itemBuilder: (c, i) {
-                  var _item = snap.data?[i];
-                  return ListTile(
-                    title: Text(_item!.title),
-                    subtitle: Text(_item!.content),
-                    leading: CircleAvatar(
-                      child: Image.network(_item.image),
-                    ),
-                  );
-                });
-              else if (snap.hasError) {
-                return Text("Error");
-              }
-              return Center(child: CircularProgressIndicator());
-            }),
+        child: _isLoading? CircularProgressIndicator() : ListView.builder(itemBuilder: (c,i){
+          var _item = _post[i];
+          return Listile(title:Text(_item.title), subtitle: Text(_item.content),);
+          leading:CircleAvatar(child:Image.network(_item.image),);
+        },
+            ,
       ),
     );
   }
 
-  Future<List<Post>> fetchAllPosts() async {
-    final response =
-        await http.get(Uri.parse('https://jsonplaceholder.org/posts'));
-    if (response.statusCode == 200) {
-      List jsonResponse = jsonDecode(response.body);
-      return jsonResponse.map((post) => Post.fromJson(post)).toList();
-    } else {
-      throw Exception('Failed to load posts');
+  Future<void> fetchAllPosts() async {
+    try {
+      final response =
+          await http.get(Uri.parse('https://jsonplaceholder.org/posts'));
+      if (response.statusCode == 200) {
+        List jsonResponse = jsonDecode(response.body);
+      }
+    } catch (e) {
+      throw Exception(e);
     }
   }
 }
