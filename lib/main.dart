@@ -27,15 +27,15 @@ class _PostListUserState extends State<PostListUser> {
                 return ListView.builder(itemBuilder: (c, i) {
                   var _item = snap.data?[i];
                   return ListTile(
-                    title: Text(_item!.title),
-                    subtitle: Text(_item!.content),
+                    title: Text(_item!.job_title),
+                    subtitle: Text(_item!.company_title),
                     leading: CircleAvatar(
-                      child: Image.network(_item.image),
+                      child: Image.network(_item.company_logo),
                     ),
                   );
                 });
               else if (snap.hasError) {
-                return Text("Error");
+                return Text("Error ${snap.error}");
               }
               return Center(child: CircularProgressIndicator());
             }),
@@ -45,9 +45,9 @@ class _PostListUserState extends State<PostListUser> {
 
   Future<List<Post>> fetchAllPosts() async {
     final response =
-        await http.get(Uri.parse('https://jsonplaceholder.org/posts'));
+        await http.get(Uri.parse('https://mpa0771a40ef48fcdfb7.free.beeceptor.com/jobs'));
     if (response.statusCode == 200) {
-      List jsonResponse = jsonDecode(response.body);
+      List jsonResponse = jsonDecode(response.body)["data"];
       return jsonResponse.map((post) => Post.fromJson(post)).toList();
     } else {
       throw Exception('Failed to load posts');
@@ -57,26 +57,35 @@ class _PostListUserState extends State<PostListUser> {
 
 class Post {
   final int id;
-  final String slug;
-  final String title;
-  final String content;
-  final String image;
+  final String job_title;
+  final String company_title;
+  final String job_location;
+  final String workplace_type;
+  final String job_type;
+  final String job_creation_date;
+  final String company_logo;
 
   Post({
     required this.id,
-    required this.slug,
-    required this.title,
-    required this.content,
-    required this.image,
+    required this.job_title,
+    required this.company_title,
+    required this.job_location,
+    required this.workplace_type,
+    required this.job_type,
+    required this.job_creation_date,
+    required this.company_logo,
   });
 
   factory Post.fromJson(Map<String, dynamic> json) {
     return Post(
-      id: json['id'],
-      slug: json['slug'],
-      title: json['title'],
-      content: json['content'],
-      image: json['image'],
+      id: json['job']['id'],
+      job_title: json['job']['title'],
+      company_title: json['job']['company']['name'],
+      job_location: json['job']['location']['name_en'],
+      workplace_type: json['job']['workplace_type']['name_en'],
+      job_type: json['job']['type']['name_en'],
+      job_creation_date: json['job']['created_date'],
+      company_logo: json['job']['company']['logo'],
     );
   }
 }

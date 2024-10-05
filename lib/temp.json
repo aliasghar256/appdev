@@ -1,0 +1,201 @@
+{
+    "data": [
+      {
+        "job": {
+          "id": 311,
+          "created_date": "2024-07-03",
+          "salary_range": [
+            0,
+            1500
+          ],
+          "benefits": [],
+          "location": {
+            "id": 19,
+            "name_ar": "جدة",
+            "name_en": "Jeddah",
+            "list_order": 3
+          },
+          "open_for_discussion": false,
+          "commission_based": true,
+          "type": {
+            "id": 2,
+            "name_ar": "دوام كامل",
+            "name_en": "Full-time",
+            "order": 1
+          },
+          "status": {
+            "id": 1,
+            "name_ar": "متاح",
+            "name_en": "Opened"
+          },
+          "workplace_preference": {
+            "id": 1,
+            "name_ar": "حضوري",
+            "name_en": "On-Site"
+          },
+          "workplace_type": {
+            "id": 1,
+            "name_ar": "حضوري",
+            "name_en": "On-Site"
+          },
+          "vertical": {
+            "id": 1,
+            "name_ar": "المبيعات",
+            "name_en": "Sales"
+          },
+          "is_predefined_list_set": true,
+          "company": {
+            "name": "Tamara",
+            "logo": "https://i.ibb.co/VjQhBH5/683ec87cd067544e.jpg"
+          },
+          "icp_answers": {
+            "job-role": [
+              {
+                "id": 2,
+                "title_ar": "Sales - المبيعات ",
+                "title_en": "Sales",
+                "next_question": [
+                  "type-of-sales"
+                ],
+                "description_ar": "عرض الخدمات للعملاء المؤهلين و إغلاق الصفقات ويتميز المرشح هنا بمهاراته في عرض الحل والتفاوض لإغلاق الصفقة",
+                "description_en": "Offering services to qualified clients and closing deals, the candidate here excels with their skills in presenting solutions and negotiating to seal the deal"
+              }
+            ],
+            "type-of-sales": [
+              {
+                "id": 3,
+                "title_ar": "Business to Government",
+                "title_en": "Business to Government",
+                "next_question": [
+                  "seniority-level"
+                ],
+                "description_ar": "تتركز مهارات المرشح بهذا المجال من الخبرة في تمثيل شركته أثناء التعامل مع جهات حكومية",
+                "description_en": "The candidate's skills in this field are focused on their experience in representing their company while dealing with governmental entities"
+              }
+            ],
+            "commission-offered": {
+              "id": 1,
+              "title_ar": "نعم",
+              "title_en": "Yes"
+            },
+            "relocation-allowance": false
+          },
+          "uuid": "33fc96f1-2785-4948-a34e-e8e74f9aab61",
+          "title": "Sales Associate Intern (B2G)",
+          "updated_date": "2024-09-05T08:31:40.491313Z",
+          "filters": {
+            "test": 1
+          },
+          "unique_token": "3X6L5R8WKQ32",
+          "created_source": "Default",
+          "is_curation_requested": false,
+          "curation_requested_date_time": null,
+          "cancellation_reason": null,
+          "edit_attempts": 0,
+          "is_default": false,
+          "order": 1,
+          "job_bucket": null,
+          "generic_candidate_applications": []
+        }
+      },
+      {
+        "job": {
+          "id": 616,
+          "created_date": "2024-09-03",
+          "salary_range": [
+            0,
+            1500
+          ],
+          "benefits": [],
+          "location": {
+            "id": 11,
+            "name_ar": "الرياض",
+            "name_en": "Riyadh",
+            "list_order": 1
+          },
+          "open_for_discussion": false,
+          "commission_based": false,
+          "type": {
+            "id": 2,
+            "name_ar": "دوام كامل",
+            "name_en": "Full-time",
+            "order": 1
+          },
+          "status": {
+            "id": 1,
+            "name_ar": "متاح",
+            "name_en": "Opened"
+          },
+          "workplace_preference": {
+            "id": 1,
+            "name_ar": "حضوري",
+            "name_en": "On-Site"
+          },
+          "workplace_type": {
+            "id": 1,
+            "name_ar": "حضوري",
+            "name_en": "On-Site"
+          },
+          "vertical": {
+            "id": 1,
+            "name_ar": "المبيعات",
+            "name_en": "Sales"
+          },
+          "is_predefined_list_set": true,
+          "company": {
+            "name": "منجز",
+            "logo": "https://i.ibb.co/Y2v3VDP/images.png"
+          },
+          "icp_answers": {
+            "job-role": [
+              {
+                "id": 1,
+                "title_ar": "Presales - قبل المبيعات ",
+                "title_en": "Presales",
+                "next_question": [
+                  "nature-of-work"
+                ],
+                "description_ar": "استقطاب العملاء المحتملين و تأهيلهم ويتميز المرشح هنا بمهاراته في التواصل مع العملاء وكسر الجليد",
+                "description_en": "Attracting and qualifying potential clients, the candidate here excels with their communication skills with clients and breaking the ice"
+              }
+            ],
+            "type-of-sales": [
+              {
+                "id": 1,
+                "title_ar": "Business to Business",
+                "title_en": "Business to Business",
+                "next_question": [
+                  "client-field"
+                ],
+                "description_ar": "تتركز مهارات المرشح بهذا المجال من الخبرة في تمثيل شركته أثناء التعامل مع شركات أخرى",
+                "description_en": "The candidate's skills in this field are focused on their experience in representing their company while dealing with other companies"
+              }
+            ],
+            "commission-offered": {
+              "id": 1,
+              "name_ar": "نعم",
+              "name_en": "Yes"
+            },
+            "relocation-allowance": false
+          },
+          "uuid": "e867049d-8260-4048-9927-0120e90b0626",
+          "title": "Do Not Touch",
+          "updated_date": "2024-09-03T11:16:15.699813Z",
+          "filters": {},
+          "unique_token": "G6P8OQIEHZN2",
+          "created_source": "Default",
+          "is_curation_requested": false,
+          "curation_requested_date_time": null,
+          "cancellation_reason": null,
+          "edit_attempts": 0,
+          "is_default": false,
+          "order": 999,
+          "job_bucket": 15,
+          "generic_candidate_applications": []
+        }
+      }
+    ],
+    "count": 2,
+    "next_link": null,
+    "prev_link": null
+  }
