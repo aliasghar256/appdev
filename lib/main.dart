@@ -49,7 +49,23 @@ class _PostListUserState extends State<PostListUser> {
               if (snap.hasData)
                 return ListView.builder(itemCount: snap.data?.length,itemBuilder: (c, i) {
                   var _item = snap.data?[i];
-                  return ListTile(
+                  return Container(
+                    margin: EdgeInsets.all(8),
+                    padding: EdgeInsets.all(8),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(10),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey.withOpacity(0.4),
+                          spreadRadius: 1,
+                          blurRadius: 1,
+                          offset: Offset(0, 1), // changes position of shadow
+                        ),
+                      ],
+                    ),
+                    child:
+                  ListTile(
                     title: Text(_item!.job_title,style: TextStyle(fontWeight: FontWeight.w600, fontSize: 15),),
                     subtitle: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -70,7 +86,7 @@ class _PostListUserState extends State<PostListUser> {
       style: TextStyle(fontSize: 12, color: Colors.grey[600]),
     ),
   ),
-),
+)),
                   );
                 });
               else if (snap.hasError) {
@@ -155,7 +171,8 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Color(0xFFF3F4F6)),
+        scaffoldBackgroundColor: Colors.white,
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.white),
         useMaterial3: true,
       ),
       home: const PostListUser(),
