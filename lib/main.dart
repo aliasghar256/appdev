@@ -24,7 +24,7 @@ class _PostListUserState extends State<PostListUser> {
             future: fetchAllPosts(),
             builder: (context, snap) {
               if (snap.hasData)
-                return ListView.builder(itemBuilder: (c, i) {
+                return ListView.builder(itemCount: snap.data?.length,itemBuilder: (c, i) {
                   var _item = snap.data?[i];
                   return ListTile(
                     title: Text(_item!.job_title),
