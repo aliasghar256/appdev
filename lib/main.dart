@@ -37,6 +37,10 @@ class _PostListUserState extends State<PostListUser> {
     return Scaffold(
       appBar: AppBar(
         title: Text("Jobs"),
+        actions: [IconButton(
+          onPressed: () {},
+          icon: Icon(Icons.notifications_outlined),
+        ),]
       ),
       body: Center(
         child: FutureBuilder<List<Post>>(
@@ -46,18 +50,27 @@ class _PostListUserState extends State<PostListUser> {
                 return ListView.builder(itemCount: snap.data?.length,itemBuilder: (c, i) {
                   var _item = snap.data?[i];
                   return ListTile(
-                    title: Text(_item!.job_title),
+                    title: Text(_item!.job_title,style: TextStyle(fontWeight: FontWeight.w600, fontSize: 15),),
                     subtitle: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [Text(_item.company_title), Text(_item!.job_location +" . "+ _item!.workplace_type + " . "+_item!.job_type)],
+                    
                     ),
                     leading: CircleAvatar(
                       child: Image.network(_item.company_logo),
                       radius: 30,
                     ),
-                    trailing: Text(
-                        _calculateTimeDifference(_item.job_updated_date), 
-                      ),
+                    trailing: Container(
+  width: 80,
+  height: 40,
+  child: Align(
+    alignment: Alignment.bottomRight,
+    child: Text(
+      _calculateTimeDifference(_item.job_updated_date),
+      style: TextStyle(fontSize: 12, color: Colors.grey[600]),
+    ),
+  ),
+),
                   );
                 });
               else if (snap.hasError) {
@@ -140,23 +153,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // TRY THIS: Try running your application with "flutter run". You'll see
-        // the application has a blue toolbar. Then, without quitting the app,
-        // try changing the seedColor in the colorScheme below to Colors.green
-        // and then invoke "hot reload" (save your changes or press the "hot
-        // reload" button in a Flutter-supported IDE, or press "r" if you used
-        // the command line to start the app).
-        //
-        // Notice that the counter didn't reset back to zero; the application
-        // state is not lost during the reload. To reset the state, use hot
-        // restart instead.
-        //
-        // This works for code too, not just values: Most code changes can be
-        // tested with just a hot reload.
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        colorScheme: ColorScheme.fromSeed(seedColor: Color(0xFFF3F4F6)),
         useMaterial3: true,
       ),
       home: const PostListUser(),
@@ -209,7 +208,7 @@ class _MyHomePageState extends State<MyHomePage> {
         // TRY THIS: Try changing the color here to a specific color (to
         // Colors.amber, perhaps?) and trigger a hot reload to see the AppBar
         // change color while the other colors stay the same.
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+        backgroundColor: Colors.white,
         // Here we take the value from the MyHomePage object that was created by
         // the App.build method, and use it to set our appbar title.
         title: Text(widget.title),
