@@ -13,14 +13,33 @@ class PostListUser extends StatefulWidget {
   @override
   State<PostListUser> createState() => _PostListUserState();
 }
+//Function to caulculate relative time
+String _calculateTimeDifference(String jobUpdatedDate) {
+    DateTime currentDate = DateTime.now(); 
+    DateTime jobUpdateDate = DateTime.parse(jobUpdatedDate);  
+
+    Duration difference = currentDate.difference(jobUpdateDate);  
+
+    if (difference.inDays > 0) {
+      return "${difference.inDays} days ago";
+    } else if (difference.inHours > 0) {
+      return "${difference.inHours} hours ago";
+    } else if (difference.inMinutes > 0) {
+      return "${difference.inMinutes} minutes ago";
+    } else {
+      return "Just now";
+    }
+  }
 
 class _PostListUserState extends State<PostListUser> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        title: Text("Jobs"),
+      ),
       body: Center(
-        child: FutureBuilder(
+        child: FutureBuilder<List<Post>>(
             future: fetchAllPosts(),
             builder: (context, snap) {
               if (snap.hasData)
@@ -28,10 +47,17 @@ class _PostListUserState extends State<PostListUser> {
                   var _item = snap.data?[i];
                   return ListTile(
                     title: Text(_item!.job_title),
-                    subtitle: Text(_item!.company_title),
+                    subtitle: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [Text(_item.company_title), Text(_item!.job_location +" . "+ _item!.workplace_type + " . "+_item!.job_type)],
+                    ),
                     leading: CircleAvatar(
                       child: Image.network(_item.company_logo),
+                      radius: 30,
                     ),
+                    trailing: Text(
+                        _calculateTimeDifference(_item.job_updated_date), 
+                      ),
                   );
                 });
               else if (snap.hasError) {
@@ -39,6 +65,22 @@ class _PostListUserState extends State<PostListUser> {
               }
               return Center(child: CircularProgressIndicator());
             }),
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: Icon(Icons.work),
+            label: 'Jobs',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.person),
+            label: 'Resume',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.settings),
+            label: 'Settings',
+          ),
+        ],
       ),
     );
   }
@@ -62,7 +104,7 @@ class Post {
   final String job_location;
   final String workplace_type;
   final String job_type;
-  final String job_creation_date;
+  final String job_updated_date;
   final String company_logo;
 
   Post({
@@ -72,7 +114,7 @@ class Post {
     required this.job_location,
     required this.workplace_type,
     required this.job_type,
-    required this.job_creation_date,
+    required this.job_updated_date,
     required this.company_logo,
   });
 
@@ -84,7 +126,7 @@ class Post {
       job_location: json['job']['location']['name_en'],
       workplace_type: json['job']['workplace_type']['name_en'],
       job_type: json['job']['type']['name_en'],
-      job_creation_date: json['job']['created_date'],
+      job_updated_date: json['job']['updated_date'],
       company_logo: json['job']['company']['logo'],
     );
   }
