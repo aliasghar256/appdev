@@ -74,27 +74,27 @@ class ProductError extends ProductState {
 }
 
 class ProductBloc extends Bloc<ProductEvent, ProductState> {
-  ProductBloc() : super(ProductInitial()) {}
+  ProductBloc() : super(ProductInitial()) {
+    on<FetchProducts>(_onFetchProducts);
+  }
   Future<void> _onFetchProducts(
     FetchProducts event,
     Emitter<ProductState> emit,
   ) async {
     emit(ProductLoading());
     try {
-      Future<List<Product>> fetchProducts() async {
-        final response =
-            await http.get(Uri.parse('https://dummyjson.com/products'));
-        if (response.statusCode == 200) {
-          final jsonResponse = jsonDecode(response.body)['products'] as List;
-          return jsonResponse
-              .map((product) => Product.fromJson(product))
-              .toList();
-        } else {
-          throw Exception('Error loading products');
-        }
+      final response =
+          await http.get(Uri.parse('https://dummyjson.com/products'));
+      if (response.statusCode == 200) {
+        final jsonResponse = jsonDecode(response.body)['products'] as List;
+        final productList =
+            jsonResponse.map((product) => Product.fromJson(product)).toList();
+        emit(ProductLoaded(productList));
+        print("Emitted");
+      } else {
+        emit(ProductError('Error loading products'));
+        ;
       }
-
-      emit(ProductLoaded([]));
     } catch (e) {
       emit(ProductError('Error'));
     }
@@ -113,37 +113,33 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   bool isLoading = true;
 
-  Future<List<Product>> fetchProducts() async {
-    final response =
-        await http.get(Uri.parse('https://dummyjson.com/products'));
-    if (response.statusCode == 200) {
-      final jsonResponse = jsonDecode(response.body)['products'] as List;
-      return jsonResponse.map((product) => Product.fromJson(product)).toList();
-    } else {
-      throw Exception('Error loading products');
-    }
-  }
+  // Future<List<Product>> fetchProducts() async {
+  //   final response =
+  //       await http.get(Uri.parse('https://dummyjson.com/products'));
+  //   if (response.statusCode == 200) {
+  //     final jsonResponse = jsonDecode(response.body)['products'] as List;
+  //     return jsonResponse.map((product) => Product.fromJson(product)).toList();
+  //   } else {
+  //     throw Exception('Error loading products');
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(widget.title),
-      ),
-      body: Center(
-        child: FutureBuilder<List<Product>>(
-          future: fetchProducts(),
-          builder: (context, snap) {
-            if (snap.connectionState == ConnectionState.waiting) {
-              return const CircularProgressIndicator();
-            } else if (snap.hasError) {
-              return const Text("Error loading products");
-            } else if (snap.hasData) {
-              return ListView.builder(
-                itemCount: snap.data!.length,
+        appBar: AppBar(
+          backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+          title: Text(widget.title),
+        ),
+        body: BlocBuilder<ProductBloc, ProductState>(builder: (context, state) {
+          if (state is ProductLoading) {
+            return Text("Loading products");
+          } else if (state is ProductLoaded) {
+            return Center(
+              child: ListView.builder(
+                itemCount: state.products.length,
                 itemBuilder: (context, index) {
-                  var product = snap.data![index];
+                  var product = state.products[index];
                   return ListTile(
                     title: Text(product.name ?? 'No Name'),
                     subtitle: Text(product.description ?? 'No Description'),
@@ -152,12 +148,40 @@ class _MyHomePageState extends State<MyHomePage> {
                     ),
                   );
                 },
-              );
-            }
-            return const Text("No products found");
-          },
-        ),
-      ),
-    );
+              ),
+            );
+          } else if (state is ProductError) {
+            return const Text("Error loading products");
+          }
+          return const Text("No products found");
+        })
+        // body: Center(
+        //   child: FutureBuilder<List<Product>>(
+        //     future: fetchProducts(),
+        //     builder: (context, snap) {
+        //       if (snap.connectionState == ConnectionState.waiting) {
+        //         return const CircularProgressIndicator();
+        //       } else if (snap.hasError) {
+        //         return const Text("Error loading products");
+        //       } else if (snap.hasData) {
+        //         return ListView.builder(
+        //           itemCount: snap.data!.length,
+        //           itemBuilder: (context, index) {
+        //             var product = snap.data![index];
+        //             return ListTile(
+        //               title: Text(product.name ?? 'No Name'),
+        //               subtitle: Text(product.description ?? 'No Description'),
+        //               leading: CircleAvatar(
+        //                 backgroundImage: NetworkImage(product.imageUrl!),
+        //               ),
+        //             );
+        //           },
+        //         );
+        //       }
+        //       return const Text("No products found");
+        //     },
+        //   ),
+        // ),
+        );
   }
 }
