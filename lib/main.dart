@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart'; // Ensure this is correctly generated
+import 'package:google_sign_in/google_sign_in.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -25,7 +26,7 @@ class App extends StatelessWidget {
           primary: Color.fromRGBO(72, 74, 126, 1),
         ),
       ),
-      home: LoginPage(),
+      home: LoginWithGooglePage(),
     );
   }
 }
@@ -67,15 +68,24 @@ class AuthService {
     }
   }
 
-  Future<UserCredential> signInWithGoogle() async {
-    final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
-    final GoogleSignInAuthentication googleAuth = await googleUser!.authentication;
+  Future<UserCredential> logInWithGoogle() async {
+    final GoogleSignIn googleSignIn = GoogleSignIn(
+        clientId:
+            '638900177465-ncc2cvd3t2n15lv52ju3agrj1e54eu74.apps.googleusercontent.com');
+    print("CREDENTIAL678");
+
+    final GoogleSignInAccount? googleUser = await googleSignIn.signIn();
+    print("CREDENTIAL345");
+
+    final GoogleSignInAuthentication googleAuth =
+        await googleUser!.authentication;
     final credential = GoogleAuthProvider.credential(
       accessToken: googleAuth?.accessToken,
       idToken: googleAuth?.idToken,
     );
+    print("CREDENTIAL");
+    print(FirebaseAuth.instance.currentUser);
     return await FirebaseAuth.instance.signInWithCredential(credential);
-
   }
 }
 
@@ -283,6 +293,38 @@ class _LoginPageState extends State<LoginPage> {
           ),
         ),
       ),
+    );
+  }
+}
+
+class LoginWithGooglePage extends StatefulWidget {
+  @override
+  LoginWithGooglePageState createState() => LoginWithGooglePageState();
+}
+
+class LoginWithGooglePageState extends State<LoginWithGooglePage> {
+  final AuthService _authService =
+      AuthService(); // Create an instance of AuthService
+
+  void _logInWithGoogle() async {
+    final UserCredential? response = await _authService.logInWithGoogle();
+    print("RESPONSE");
+    print(response);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Login With Google'),
+        centerTitle: true,
+      ),
+      body: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: FloatingActionButton(
+            onPressed: _logInWithGoogle,
+            child: Text("Log In with Google"),
+          )),
     );
   }
 }
